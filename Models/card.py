@@ -1,7 +1,7 @@
 from __init__ import db
 
 
-class Card(db.model):
+class Card(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     badge_type = db.Column(db.String(64))
     user_id = db.Column(db.Integer, index=True)

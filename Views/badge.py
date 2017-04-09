@@ -1,23 +1,39 @@
-from flask import request, jsonify, make_response, abort
+from flask import request, jsonify, make_response, abort, Blueprint
 
-from __init__ import app, db
+from __init__ import db
+# from __init__ import application
 from Models.card import Card
 
 import datetime
+import logging
 
-api_string = "/api/v0.1/"
+logger = logging.getLogger(__file__)
+logger.setLevel(logging.DEBUG)
 
-@app.route(api_string + "badge/<int:card_id>/", methods=["GET"])
+consolelog = logging.StreamHandler()
+consolelog.setLevel(logging.DEBUG)
+
+logger.addHandler(consolelog)
+
+logger.info("Loading badge.py.")
+
+badge_view = Blueprint('badge_view', __name__)
+
+
+@badge_view.route("/test/", methods=["GET"])
+@badge_view.route("/api/v0.1/badge/<int:card_id>/", methods=["GET"])
 def get_badge_from_id(card_id):
     """Henter badge informasjon fra DB ID felt"""
+    logger.debug("Fetching from ID: {}".format(card_id))
     result = Card.query.get(card_id)
 
     if len(result) == 0:
-        abort(404)
+        logger.debug("No results found.")
+        abort(400)
 
     return jsonify(result)
 
-@app.route(api_string + "badge/<string:serial_number>/", methods=["GET"])
+@badge_view.route("/api/v0.1/badge/<string:serial_number>/", methods=["GET"])
 def get_badge_from_serial(serial_number):
     """Henter badge informasjon basert på NFC serienummer"""
     result = Card.query.filter(Card.serial_number == serial_number)
@@ -27,7 +43,7 @@ def get_badge_from_serial(serial_number):
 
     return jsonify(result)
 
-@app.route(api_string + "badge/wannabe/<string:wannabe_id>/", methods=["GET"])
+@badge_view.route("/api/v0.1/badge/wannabe/<string:wannabe_id>/", methods=["GET"])
 def get_wannabe_user_badges(wannabe_id):
     """Henter ut en brukers ID kort fra Wannabe ID"""
     result = Card.query.filter(Card.user_id == wannabe_id, Card.badge_type == "wannabe")
@@ -38,7 +54,7 @@ def get_wannabe_user_badges(wannabe_id):
     return jsonify(result)
 
 
-@app.route(api_string + "badge/", methods=["POST"])
+@badge_view.route("/api/v0.1/badge/", methods=["POST"])
 def add_card():
     """Legger inn et nytt kort
     
@@ -46,7 +62,7 @@ def add_card():
     Den returnerer da HTTP 400 (Bad Request)
     Returnerer kortobjektet og HTTP 201 (Created) ved success.
     """
-    
+
     if not request.json or not check_post_request(request.json):
         abort(400)
 
