@@ -6,8 +6,9 @@ __pycache__
 *.pyc
 *.pyo
 
-# DB
+# DB 
 *.db
+db_repository
 
 # Venv
 venv
