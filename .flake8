@@ -1,0 +1,32 @@
+[flake8]
+exclude =
+    .git,
+    venv,
+    __pycache__,
+    docs/source/conf.py,
+    old,
+    build,
+    dist
+max-complexity = 5
+max-line-length = 120
+hang-closing = True
+ignore =
+    E121,
+    E123,
+    E126,
+    E226,
+    E24,
+    E704,
+    W503,
+    W504
+select-errors =
+    E,
+    F,
+    W,
+    C90
+disable-noqa = True
+show-source = True
+statistics = True
+tee = True
+output-file = .flake8.log
+
