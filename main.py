@@ -35,16 +35,16 @@ def json_badge(entry):
     json_entry = OrderedDict()
 
     json_entry.update({
-        "id": entry.id,
-        "badge_type": entry.badge_type,
-        "user_id": entry.user_id,
-        "serial_number": entry.serial_number,
-        "creation_date": entry.creation_date,
-        "valid_from": entry.valid_from,
-        "valid_until": entry.valid_until,
-        "revoked": entry.revoked,
-        "_self": API_PATH + "id/" + entry.id,
-    })
+            "id": entry.id,
+            "badge_type": entry.badge_type,
+            "user_id": entry.user_id,
+            "serial_number": entry.serial_number,
+            "creation_date": entry.creation_date,
+            "valid_from": entry.valid_from,
+            "valid_until": entry.valid_until,
+            "revoked": entry.revoked,
+            "_self": API_PATH + "id/" + entry.id,
+        })
 
     return json_entry
 
@@ -118,7 +118,7 @@ def get_wannabe_user_badges(wannabe_id):
     result = Card.query.filter(
         Card.user_id == wannabe_id,
         Card.badge_type == "wannabe",
-    )
+       )
 
     if not result:
         abort(404)
@@ -134,7 +134,7 @@ def add_card(card_id: int=None):
 
     Feiler dersom requesten ikke inneholder badge type, serienummer og en bruker ID.
     Den returnerer da HTTP 400 (Bad Request)
-    
+
     Dersom post request inneholder en ID så vil metoden oppdatere feltene til objektet.
     Returnerer kortobjektet og HTTP 201 (Created) ved opprettelse eller HTTP 200 dersom
     objektet kun endres.
@@ -189,7 +189,7 @@ def add_card(card_id: int=None):
             valid_from=datetime.datetime.utcnow(),
             valid_until=0,
             revoked=False
-        )
+            )
 
         db.session.add(result)
         logger.info("Entry created with id {}".format(result.id))
@@ -198,10 +198,11 @@ def add_card(card_id: int=None):
     db.session.commit()
     return jsonify_result(result), status_code
 
+
 @application.route(API_PATH, methods=["DELETE"])
 @application.route(API_PATH + "<int:card_id>/", methods=["DELETE"])
 @json_response
-def revoke_card(card_id = None):
+def revoke_card(card_id=None):
     """Setter revoke til true på et kort basert på IDen til kortet."""
     logger.debug("Attempting to revoke badge with ID: {}".format(card_id))
     result = Card.query.get(request.json["id"] or card_id)
@@ -215,6 +216,7 @@ def revoke_card(card_id = None):
     db.session.commit()
     logger.debug("Revoked badge with ID: {}".format(card_id))
     return jsonify_result(result), 200
+
 
 if __name__ == "__main__":
     application.run()
