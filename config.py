@@ -1,5 +1,5 @@
-import os
-basedir = os.path.abspath(os.path.dirname(__file__))
+from os import path as op
+basedir = op.dirname(op.abspath(op.realpath(__file__)))
 
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, "app.db")
-SQLALCHEMY_MIGRATE_REPO = os.path.join(basedir, "db_repository")
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + op.join(basedir, "app.db")
+SQLALCHEMY_MIGRATE_REPO = op.join(basedir, "db_repository")

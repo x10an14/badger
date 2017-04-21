@@ -31,6 +31,24 @@ or the pro alternative:
 venv/bin/python ./main.py
 ```
 
+### Database stuffs
+* Create database:
+```
+venv/bin/python db_create.py
+```
+* Upgrade database:
+```
+venv/bin/python db_create.py
+```
+* Downgrade database:
+```
+venv/bin/python db_create.py
+```
+* Migrate database:
+```
+venv/bin/python db_create.py
+```
+
 # Linting
 [Flake8](https://pypi.python.org/pypi/flake8) is an installed Pypi requirements.txt requirement.
 Check step `5` above for for install instructions!

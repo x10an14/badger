@@ -1,0 +1,14 @@
+#!/home/x10an14/Documents/git_projs/tg/badger/venv/bin/python3.6
+import os
+import sys
+
+from flake8.main import git
+
+if __name__ == '__main__':
+    # print("\n\nHELLO BASTARDS!\n\n\n")
+    sys.exit(
+        git.hook(
+            strict=git.config_for('strict'),
+            lazy=git.config_for('lazy'),
+        )
+    )

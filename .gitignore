@@ -6,6 +6,9 @@ __pycache__
 *.pyc
 *.pyo
 
+# Vim
+*.swp
+
 # DB 
 *.db
 db_repository
