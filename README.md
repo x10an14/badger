@@ -16,21 +16,22 @@ Badger McBadgery
 6. Your virtualenv is now ready to be activated (noob fashion), and it's executables are ready for utilization in the
     `venv/bin` (or `venv\Scripts` on Windblows) folder! (Pro fashion).
 
-Example: `venv/bin/python <python script> <cmdline args>`(!)
+## Execution
 
-# Execution
+Example: `venv/bin/python <python script> <cmdline args>`
+
+### General program
 From the commandline you've got a newb alternative:
 ```
 venv/bin/activate
 python ./main.py
 ```
-
 or the pro alternative:
 ```
 venv/bin/python ./main.py
 ```
 
 # Linting
-New with this commit is that [Flake8](https://pypi.python.org/pypi/flake8) is also an installed Pypi requirement.
-Check step `5` above for for instructions!
+[Flake8](https://pypi.python.org/pypi/flake8) is an installed Pypi requirements.txt requirement.
+Check step `5` above for for install instructions!
    
