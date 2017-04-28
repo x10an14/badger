@@ -6,7 +6,9 @@ exclude =
     docs/source/conf.py,
     old,
     build,
-    dist
+    dist,
+    migrations/versions,
+    migrations/env.py
 max-complexity = 7
 max-line-length = 120
 hang-closing = True
