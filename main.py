@@ -1,18 +1,19 @@
-#!flask/bin/python
-from flask import Flask, request, abort
-from flask_sqlalchemy import SQLAlchemy
+#!/usr/bin/env python
 import logging
 import datetime
 import json
 
+# PyPi imports:
+from flask import Flask, request, abort
+from flask_sqlalchemy import SQLAlchemy
 
 logger = logging.getLogger(__file__)
 logger.setLevel(logging.DEBUG)
 
-application = Flask(__name__)
-application.config.from_object('config')
+app = Flask(__name__)
+app.config.from_object('config')
 
-db = SQLAlchemy(application)
+db = SQLAlchemy(app)
 
 
 API_PATH = "/api/v0.1/badge/"
@@ -81,7 +82,7 @@ def validate_post_request(json_input):
     return True
 
 
-@application.route(API_PATH + "id/<int:card_id>/", methods=["GET"])
+@app.route(API_PATH + "id/<int:card_id>/", methods=["GET"])
 @json_response
 def get_badge_from_id(card_id):
     """Henter badge informasjon fra DB ID felt."""
@@ -96,7 +97,7 @@ def get_badge_from_id(card_id):
     return jsonify_result(result), 200
 
 
-@application.route(API_PATH + "serial/<string:serial_number>/", methods=["GET"])
+@app.route(API_PATH + "serial/<string:serial_number>/", methods=["GET"])
 @json_response
 def get_badge_from_serial(serial_number):
     """Henter badge informasjon basert på NFC serienummer."""
@@ -111,7 +112,7 @@ def get_badge_from_serial(serial_number):
     return jsonify_result(result), 200
 
 
-@application.route(API_PATH + "wannabe/<string:wannabe_id>/", methods=["GET"])
+@app.route(API_PATH + "wannabe/<string:wannabe_id>/", methods=["GET"])
 @json_response
 def get_wannabe_user_badges(wannabe_id):
     """Henter ut en brukers ID kort fra Wannabe ID."""
@@ -126,8 +127,8 @@ def get_wannabe_user_badges(wannabe_id):
     return jsonify_result(result), 200
 
 
-@application.route(API_PATH, methods=["POST"])
-@application.route(API_PATH + "<int:card_id>/", methods=["POST"])
+@app.route(API_PATH, methods=["POST"])
+@app.route(API_PATH + "<int:card_id>/", methods=["POST"])
 @json_response
 def add_card(card_id: int=None):
     """Legger inn et nytt kort eller oppdaterer kortet med iden spesifisert i post.
@@ -199,8 +200,8 @@ def add_card(card_id: int=None):
     return jsonify_result(result), status_code
 
 
-@application.route(API_PATH, methods=["DELETE"])
-@application.route(API_PATH + "<int:card_id>/", methods=["DELETE"])
+@app.route(API_PATH, methods=["DELETE"])
+@app.route(API_PATH + "<int:card_id>/", methods=["DELETE"])
 @json_response
 def revoke_card(card_id=None):
     """Setter revoke til true på et kort basert på IDen til kortet."""
@@ -219,4 +220,4 @@ def revoke_card(card_id=None):
 
 
 if __name__ == "__main__":
-    application.run()
+    app.run()
